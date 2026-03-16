@@ -1,0 +1,1 @@
+All skill icons taken from the [OSRS Wiki](https://oldschool.runescape.wiki/w/Skills) and converted to ASCII using ASCII Art Archives' [Image to ASCII Art](https://www.asciiart.eu/image-to-ascii) tool.
