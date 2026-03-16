@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -44,11 +45,12 @@ type HiscoreEntry struct {
 	Rank  int    `json:"rank"`
 	Level int    `json:"level"`
 	XP    int    `json:"xp"`
+	Score int    `json:"score"`
 }
 
 type HiscoreResponse struct {
-	Skills []HiscoreEntry `json:"skills"`
-	// Activities map[string][]HiscoreEntry `json:"activities"`
+	Skills     []HiscoreEntry `json:"skills"`
+	Activities []HiscoreEntry `json:"activities"`
 }
 
 // Builds the full http URL for Old School Hiscores API
@@ -76,19 +78,23 @@ func main() {
 		fmt.Printf("Unexpected status code: %d\nStatus: %v\n", response.StatusCode, response.Status)
 	}
 
-	// body, err := io.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		fmt.Printf("Error reading response body: %v\n", err)
 	}
 
 	var hiscore HiscoreResponse
-	if err := json.Unmarshal(test_byte, &hiscore); err != nil {
+	if err := json.Unmarshal(body, &hiscore); err != nil {
 		fmt.Printf("Error parsing JSON: %v\n", err)
 	}
 
-	fmt.Println("Test Hiscores")
+	fmt.Println("===== B0aty Scores =====")
 	for _, skills := range hiscore.Skills {
 		fmt.Printf("Skill: %s | Rank: %d | Level: %d | XP: %d\n",
 			skills.Name, skills.Rank, skills.Level, skills.XP)
+	}
+	for _, activities := range hiscore.Activities {
+		fmt.Printf("Activity: %s | Rank: %d | Score: %d\n",
+			activities.Name, activities.Rank, activities.Score)
 	}
 }
