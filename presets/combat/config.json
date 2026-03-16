@@ -1,0 +1,14 @@
+{
+  "name": "X",
+  "mode": "normal",
+  "logo": "slayer",
+  "modules": [
+    "overall",
+    "attack",
+    "strength",
+    "defence",
+    "prayer",
+    "slayer",
+    "firemaking"
+  ]
+}
