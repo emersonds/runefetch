@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 )
 
 // Used for http builder
 const (
-	testName           = "B0aty"
 	hiscoresHttpPrefix = "https://secure.runescape.com/m=hiscore_oldschool"
 	hiscoresHttpSuffix = "/index_lite.json?player="
 	normalMode         = ""
@@ -18,9 +19,11 @@ const (
 	ultimateMode       = "_ultimate"
 )
 
-type RuneScapePlayer struct {
-	name string
-	mode string // Normal, Ironman, etc.
+type Config struct {
+	Name    string   `json:"name"`
+	Mode    string   `json:"mode"`
+	Logo    string   `json:"logo"`
+	Modules []string `json:"modules"`
 }
 
 type HiscoreEntry struct {
@@ -41,14 +44,46 @@ func HiscoresBuilder(name string, mode string) string {
 	return hiscoresHttpPrefix + mode + hiscoresHttpSuffix + name
 }
 
+// Looks for config file and returns its contents
+func GetConfig(confPath string) *Config {
+	file, err := os.Open(confPath)
+	if err != nil {
+		fmt.Printf("Error loading config file: %v\n", err)
+		return nil
+	}
+	defer file.Close() // Close file at end of function
+
+	decoder := json.NewDecoder(file)
+	config := &Config{}
+
+	if err := decoder.Decode(config); err != nil {
+		fmt.Printf("Error decoding config JSON: %v\n", err)
+	}
+
+	return config
+}
+
 func main() {
-	// testJson := []byte(``)
+	confDir, dirErr := os.UserConfigDir()
 
-	player := RuneScapePlayer{name: testName, mode: normalMode}
+	var configPath string
 
-	// Builds test http request using B0aty
-	// https://secure.runescape.com/m=hiscore_oldschool/index_lite.json?player=B0aty
-	playerHiscores := HiscoresBuilder(player.name, player.mode)
+	if dirErr == nil {
+		configPath = filepath.Join(confDir, "runefetch", "config.json")
+	} else {
+		fmt.Printf("Unable to locate config directory: %v", dirErr)
+		return
+	}
+
+	playerData := GetConfig(configPath)
+
+	var playerHiscores string
+	if playerData != nil {
+		playerHiscores = HiscoresBuilder(playerData.Name, playerData.Mode)
+	} else {
+		fmt.Printf("Invalid player config\n")
+		return
+	}
 
 	// Send GET request to OSRS Hiscores API
 	response, err := http.Get(playerHiscores)
