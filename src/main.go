@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // Used for http builder
@@ -41,7 +42,19 @@ type HiscoreResponse struct {
 
 // Builds the full http URL for Old School Hiscores API
 func HiscoresBuilder(name string, mode string) string {
-	return hiscoresHttpPrefix + mode + hiscoresHttpSuffix + name
+	mode = strings.ToLower(mode)
+	var hiscoreHTTP string
+
+	switch mode {
+	case "normal", "main":
+		hiscoreHTTP = "https://secure.runescape.com/m=hiscore_oldschool/index_lite.json?player="
+	case "iron", "ironman":
+		hiscoreHTTP = "https://secure.runescape.com/m=hiscore_oldschool_ironman/index_lite.json?player="
+	case "hc", "hardcore", "hardcore iron", "hardcore ironman":
+		hiscoreHTTP = "https://secure.runescape.com/m=hiscore_oldschool_hardcore_ironman/index_lite.json?player="
+	}
+
+	return hiscoreHTTP + name
 }
 
 // Looks for config file and returns its contents
@@ -114,7 +127,7 @@ func main() {
 	}
 
 	// Output, print results of get request (skills/activities)
-	fmt.Println("===== B0aty Scores =====")
+	fmt.Printf("=========== %s Scores ===========\n", playerData.Name)
 	for _, skills := range hiscore.Skills {
 		fmt.Printf("Skill: %s | Rank: %d | Level: %d | XP: %d\n",
 			skills.Name, skills.Rank, skills.Level, skills.XP)
