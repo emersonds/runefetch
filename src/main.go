@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -22,7 +23,7 @@ type HiscoreEntry struct {
 	Rank  int    `json:"rank"`
 	Level int    `json:"level"`
 	XP    int    `json:"xp"`    // Exclusive to Skills
-	Score int    `json:"score"` // Exslusive to Activities
+	Score int    `json:"score"` // Exclusive to Activities
 }
 
 type HiscoreResponse struct {
@@ -118,9 +119,18 @@ func main() {
 		return
 	}
 
+	// Get logo to display from config
+	logoPath := filepath.Join("logos", string(playerData.Logo+".txt"))
+	logoData, err := os.Open(logoPath)
+	if err != nil {
+		fmt.Printf("Error loading logo: %v\n", err)
+	}
+	defer logoData.Close() // Close file at end of function
+	logoScanner := bufio.NewScanner(logoData)
+
 	fmt.Printf("=============== %s Scores ==============\n", playerData.Name)
 
-	// Print each hiscore if it is in config modules
+	// Output display. Each loop prints a line from the logo and a skill/activity
 	for _, module := range playerData.Modules {
 		for _, skill := range hiscore.Skills {
 			if strings.EqualFold(skill.Name, module) {
