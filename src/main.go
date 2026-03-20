@@ -10,16 +10,6 @@ import (
 	"strings"
 )
 
-// Used for http builder
-const (
-	hiscoresHttpPrefix = "https://secure.runescape.com/m=hiscore_oldschool"
-	hiscoresHttpSuffix = "/index_lite.json?player="
-	normalMode         = ""
-	ironmanMode        = "_ironman"
-	hardcoreMode       = "_hardcore_ironman"
-	ultimateMode       = "_ultimate"
-)
-
 type Config struct {
 	Name    string   `json:"name"`
 	Mode    string   `json:"mode"`
@@ -52,6 +42,8 @@ func HiscoresBuilder(name string, mode string) string {
 		hiscoreHTTP = "https://secure.runescape.com/m=hiscore_oldschool_ironman/index_lite.json?player="
 	case "hc", "hardcore", "hardcore iron", "hardcore ironman":
 		hiscoreHTTP = "https://secure.runescape.com/m=hiscore_oldschool_hardcore_ironman/index_lite.json?player="
+	case "ultimate", "ultimate iron", "ultimate ironman":
+		hiscoreHTTP = "https://secure.runescape.com/m=hiscore_oldschool_ultimate/index_lite.json?player="
 	}
 
 	return hiscoreHTTP + name
@@ -126,14 +118,21 @@ func main() {
 		return
 	}
 
-	// Output, print results of get request (skills/activities)
-	fmt.Printf("=========== %s Scores ===========\n", playerData.Name)
-	for _, skills := range hiscore.Skills {
-		fmt.Printf("Skill: %s | Rank: %d | Level: %d | XP: %d\n",
-			skills.Name, skills.Rank, skills.Level, skills.XP)
-	}
-	for _, activities := range hiscore.Activities {
-		fmt.Printf("Activity: %s | Rank: %d | Score: %d\n",
-			activities.Name, activities.Rank, activities.Score)
+	fmt.Printf("=============== %s Scores ==============\n", playerData.Name)
+
+	// Print each hiscore if it is in config modules
+	for _, module := range playerData.Modules {
+		for _, skill := range hiscore.Skills {
+			if strings.EqualFold(skill.Name, module) {
+				fmt.Printf("%s Level %d, %d XP, Rank %d\n",
+					skill.Name, skill.Level, skill.XP, skill.Rank)
+			}
+		}
+		for _, activities := range hiscore.Activities {
+			if strings.EqualFold(activities.Name, module) {
+				fmt.Printf("%s Score: %d, Rank %d\n",
+					activities.Name, activities.Score, activities.Rank)
+			}
+		}
 	}
 }
