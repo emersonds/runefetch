@@ -119,6 +119,22 @@ func main() {
 		return
 	}
 
+	// Only display hiscores from the config
+	var displaySkills []HiscoreEntry
+	var displayActivities []HiscoreEntry
+	for _, module := range playerData.Modules {
+		for _, skill := range hiscore.Skills {
+			if strings.EqualFold(skill.Name, module) {
+				displaySkills = append(displaySkills, skill)
+			}
+		}
+		for _, activity := range hiscore.Activities {
+			if strings.EqualFold(activity.Name, module) {
+				displayActivities = append(displayActivities, activity)
+			}
+		}
+	}
+
 	// Get logo to display from config
 	logoPath := filepath.Join("logos", string(playerData.Logo+".txt"))
 	logoData, err := os.Open(logoPath)
@@ -131,18 +147,17 @@ func main() {
 	fmt.Printf("=============== %s Scores ==============\n", playerData.Name)
 
 	// Output display. Each loop prints a line from the logo and a skill/activity
-	for _, module := range playerData.Modules {
-		for _, skill := range hiscore.Skills {
-			if strings.EqualFold(skill.Name, module) {
-				fmt.Printf("%s Level %d, %d XP, Rank %d\n",
-					skill.Name, skill.Level, skill.XP, skill.Rank)
-			}
-		}
-		for _, activities := range hiscore.Activities {
-			if strings.EqualFold(activities.Name, module) {
-				fmt.Printf("%s Score: %d, Rank %d\n",
-					activities.Name, activities.Score, activities.Rank)
-			}
+	skillsCount := 0
+	activitiesCount := 0
+	for logoScanner.Scan() {
+		if skillsCount < len(displaySkills) {
+			fmt.Printf("%s\t%v\n", logoScanner.Text(), displaySkills[skillsCount])
+			skillsCount++
+		} else if activitiesCount < len(displayActivities) {
+			fmt.Printf("%s\t%v\n", logoScanner.Text(), displaySkills[activitiesCount])
+			activitiesCount++
+		} else {
+			fmt.Printf("%s\n", logoScanner.Text())
 		}
 	}
 }
