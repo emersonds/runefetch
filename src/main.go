@@ -134,6 +134,7 @@ func main() {
 			}
 		}
 	}
+	//fmt.Println("Display Modules:",displayActivities,displaySkills)
 
 	// Get logo to display from config
 	logoPath := filepath.Join("logos", string(playerData.Logo+".txt"))
@@ -154,7 +155,7 @@ func main() {
 			fmt.Printf("%s\t%v\n", logoScanner.Text(), displaySkills[skillsCount])
 			skillsCount++
 		} else if activitiesCount < len(displayActivities) {
-			fmt.Printf("%s\t%v\n", logoScanner.Text(), displaySkills[activitiesCount])
+			fmt.Printf("%s\t%v\n", logoScanner.Text(), displayActivities[activitiesCount])
 			activitiesCount++
 		} else {
 			fmt.Printf("%s\n", logoScanner.Text())
