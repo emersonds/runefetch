@@ -152,10 +152,12 @@ func main() {
 	activitiesCount := 0
 	for logoScanner.Scan() {
 		if skillsCount < len(displaySkills) {
-			fmt.Printf("%s\t%v\n", logoScanner.Text(), displaySkills[skillsCount])
+			fmt.Printf("%s\t%s Level %d, %d XP, Rank %d \n",
+				logoScanner.Text(), displaySkills[skillsCount].Name, displaySkills[skillsCount].Level, displaySkills[skillsCount].XP, displaySkills[skillsCount].Rank)
 			skillsCount++
 		} else if activitiesCount < len(displayActivities) {
-			fmt.Printf("%s\t%v\n", logoScanner.Text(), displayActivities[activitiesCount])
+			fmt.Printf("%s\t%s Score %d, Rank %d\n",
+				logoScanner.Text(), displayActivities[activitiesCount].Name, displayActivities[activitiesCount].Score, displayActivities[activitiesCount].Rank)
 			activitiesCount++
 		} else {
 			fmt.Printf("%s\n", logoScanner.Text())
