@@ -152,8 +152,10 @@ func main() {
 		switch i {
 		case 0:
 			fmt.Printf("%s\t%s\n", logoScanner.Text(), playerData.Name)
+			continue
 		case 1:
 			fmt.Printf("%s\t%s\n", logoScanner.Text(), playerData.Mode)
+			continue
 		}
 		if skillsCount < len(displaySkills) {
 			fmt.Printf("%s\t%s Level %d, %d XP, Rank %d \n",
