@@ -145,12 +145,16 @@ func main() {
 	defer logoData.Close() // Close file at end of function
 	logoScanner := bufio.NewScanner(logoData)
 
-	fmt.Printf("=============== %s Scores ==============\n", playerData.Name)
-
 	// Output display. Each loop prints a line from the logo and a skill/activity
 	skillsCount := 0
 	activitiesCount := 0
-	for logoScanner.Scan() {
+	for i := 0; logoScanner.Scan(); i++ {
+		switch i {
+		case 0:
+			fmt.Printf("%s\t%s\n", logoScanner.Text(), playerData.Name)
+		case 1:
+			fmt.Printf("%s\t%s\n", logoScanner.Text(), playerData.Mode)
+		}
 		if skillsCount < len(displaySkills) {
 			fmt.Printf("%s\t%s Level %d, %d XP, Rank %d \n",
 				logoScanner.Text(), displaySkills[skillsCount].Name, displaySkills[skillsCount].Level, displaySkills[skillsCount].XP, displaySkills[skillsCount].Rank)
