@@ -1,0 +1,24 @@
+{
+  "name": "X",
+  "mode": "normal",
+  "logo": "slayer",
+  "modules": [
+    "overall",
+    "cooking",
+    "woodcutting",
+    "fletching",
+    "fishing",
+    "firemaking",
+    "crafting",
+    "smithing",
+    "mining",
+    "herblore",
+    "agility",
+    "thieving",
+    "farming",
+    "runecrafting",
+    "hunter",
+    "construction",
+    "sailing"
+  ]
+}
