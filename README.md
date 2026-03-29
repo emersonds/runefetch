@@ -10,6 +10,8 @@ Fetch your Old-School Runescape hiscores and display them with Runefetch! Inspir
 > [!NOTE]
 > Runefetch has only been tested on different flavors of Arch Linux. However, it should be compatible with most Linux distributions following the XDG Base Directory Specification. Runefetch has not been tested on MacOS or Windows.
 
+<img src="assets/example1.png" />
+
 ### Installation and Usage
 1. Clone this github repository `git clone https://github.com/emersonds/runefetch`.
 2. Copy one of the config files located in `runefetch/presets` to your config directory, `~/.config/runefetch`.
