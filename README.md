@@ -26,4 +26,5 @@ Runefetch supports all activities and skills in Old-School Runescape. Simply add
 - [ ] Cache HTTP Request for performance.
 - [ ] Add colors and other customization options.
 - [ ] Create more preset configs.
+- [ ] Add smaller logo sizes.
 - [ ] Test functionality on MacOS and Windows.
