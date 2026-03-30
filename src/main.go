@@ -11,6 +11,13 @@ import (
 	"strings"
 )
 
+const (
+	// These match the colors set in your terminal with your color scheme.
+	defaultAccentColor = "\033[0;35m" // Magenta
+	//defaultSecondaryColor = "\033[0;32m" // Green
+	resetColor = "\033[0m"
+)
+
 type Config struct {
 	Name    string   `json:"name"`
 	Mode    string   `json:"mode"`
@@ -30,6 +37,14 @@ func (hEntry *HiscoreEntry) PrintEntry(isSkill bool) string {
 	// TODO: Switch statement isSkill
 	// if skill print XP. if activity print score.
 	// copy print from output, add color, and replace in output loop
+	switch isSkill {
+	case true:
+		return fmt.Sprintf("%s%s %sLevel %d, %d XP, Rank %d",
+			defaultAccentColor, hEntry.Name, resetColor, hEntry.Level, hEntry.XP, hEntry.Rank)
+	case false:
+		return fmt.Sprintf("%s%s %sScore %d, Rank %d",
+			defaultAccentColor, hEntry.Name, resetColor, hEntry.Score, hEntry.Rank)
+	}
 	return ""
 }
 
@@ -37,11 +52,6 @@ type HiscoreResponse struct {
 	Skills     []HiscoreEntry `json:"skills"`
 	Activities []HiscoreEntry `json:"activities"`
 }
-
-const (
-	defaultAccentColor = "\033[0;35m"
-	resetColor         = "\033[0m"
-)
 
 // Builds the full http URL for Old School Hiscores API
 func HiscoresBuilder(name string, mode string) string {
@@ -170,12 +180,10 @@ func main() {
 			continue
 		}
 		if skillsCount < len(displaySkills) {
-			fmt.Printf("%s\t%s Level %d, %d XP, Rank %d \n",
-				logoScanner.Text(), displaySkills[skillsCount].Name, displaySkills[skillsCount].Level, displaySkills[skillsCount].XP, displaySkills[skillsCount].Rank)
+			fmt.Printf("%s\t%s\n", logoScanner.Text(), displaySkills[skillsCount].PrintEntry(true))
 			skillsCount++
 		} else if activitiesCount < len(displayActivities) {
-			fmt.Printf("%s\t%s Score %d, Rank %d\n",
-				logoScanner.Text(), displayActivities[activitiesCount].Name, displayActivities[activitiesCount].Score, displayActivities[activitiesCount].Rank)
+			fmt.Printf("%s\t%s\n", logoScanner.Text(), displayActivities[activitiesCount].PrintEntry(false))
 			activitiesCount++
 		} else {
 			fmt.Printf("%s\n", logoScanner.Text())
