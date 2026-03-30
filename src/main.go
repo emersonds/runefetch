@@ -26,10 +26,22 @@ type HiscoreEntry struct {
 	Score int    `json:"score"` // Exclusive to Activities
 }
 
+func (hEntry *HiscoreEntry) PrintEntry(isSkill bool) string {
+	// TODO: Switch statement isSkill
+	// if skill print XP. if activity print score.
+	// copy print from output, add color, and replace in output loop
+	return ""
+}
+
 type HiscoreResponse struct {
 	Skills     []HiscoreEntry `json:"skills"`
 	Activities []HiscoreEntry `json:"activities"`
 }
+
+const (
+	defaultAccentColor = "\033[0;35m"
+	resetColor         = "\033[0m"
+)
 
 // Builds the full http URL for Old School Hiscores API
 func HiscoresBuilder(name string, mode string) string {
@@ -151,10 +163,10 @@ func main() {
 	for i := 0; logoScanner.Scan(); i++ {
 		switch i {
 		case 0:
-			fmt.Printf("%s\t%s\n", logoScanner.Text(), playerData.Name)
+			fmt.Printf("%s\t%s%s%s\n", logoScanner.Text(), defaultAccentColor, playerData.Name, resetColor)
 			continue
 		case 1:
-			fmt.Printf("%s\t%s\n", logoScanner.Text(), playerData.Mode)
+			fmt.Printf("%s\t%s%s%s\n", logoScanner.Text(), defaultAccentColor, playerData.Mode, resetColor)
 			continue
 		}
 		if skillsCount < len(displaySkills) {
