@@ -6,6 +6,14 @@ import (
 	"os"
 )
 
+const (
+	// These match the colors set in your terminal with your color scheme.
+	DefaultAccentColor = "\033[0;35m" // Magenta
+	//defaultSecondaryColor = "\033[0;32m" // Green
+	ResetColor = "\033[0m"
+)
+
+
 type Config struct {
 	Name    string   `json:"name"`
 	Mode    string   `json:"mode"`
