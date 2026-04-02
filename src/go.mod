@@ -1,3 +1,3 @@
-module github.com/emersonds/runefetch
+module runefetch
 
 go 1.25.0
