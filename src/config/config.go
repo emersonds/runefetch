@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 const (
@@ -13,12 +14,22 @@ const (
 	ResetColor = "\033[0m"
 )
 
-
 type Config struct {
 	Name    string   `json:"name"`
 	Mode    string   `json:"mode"`
 	Logo    string   `json:"logo"`
 	Modules []string `json:"modules"`
+}
+
+// Verifies the config file exists within the correct config directory
+func ValidateConfig() (string, error) {
+	confDir, dirErr := os.UserConfigDir()
+
+	if dirErr == nil {
+		return filepath.Join(confDir, "runefetch", "config.json"), nil
+	} else {
+		return "", fmt.Errorf("Unable to locate config directory: %v", dirErr)
+	}
 }
 
 // Looks for config file and returns its contents

@@ -11,17 +11,10 @@ import (
 )
 
 func main() {
-	confDir, dirErr := os.UserConfigDir()
-
-	var configPath string
-
-	if dirErr == nil {
-		configPath = filepath.Join(confDir, "runefetch", "config.json")
-	} else {
-		fmt.Printf("Unable to locate config directory: %v", dirErr)
-		return
+	configPath, err := config.ValidateConfig()
+	if err != nil {
+		fmt.Printf("%v", err)
 	}
-
 	playerData := config.GetConfig(configPath)
 
 	var playerHiscores string
