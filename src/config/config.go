@@ -5,24 +5,28 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/gookit/color"
 )
 
 const (
 	// These match the colors set in your terminal with your color scheme.
-	DefaultAccentColor = "\033[0;35m" // Magenta
-	//defaultSecondaryColor = "\033[0;32m" // Green
-	ResetColor = "\033[0m"
+	DefaultAccentColor    = color.Magenta
+	DefaultSecondaryColor = color.Green
+	DefaultNumbersColor   = color.Blue
+	ResetColor            = color.White
 )
 
 type Config struct {
 	Name    string   `json:"name"`
 	Mode    string   `json:"mode"`
 	Logo    string   `json:"logo"`
+	Colors  []string `json:"colors"`
 	Modules []string `json:"modules"`
 }
 
 // Verifies the config file exists within the correct config directory
-func ValidateConfig() (string, error) {
+func ValidateConfigDir() (string, error) {
 	confDir, dirErr := os.UserConfigDir()
 
 	if dirErr == nil {
@@ -49,4 +53,16 @@ func GetConfig(confPath string) *Config {
 	}
 
 	return config
+}
+
+// Verifies config colors, returning default values if invalid
+func GetColors(conf Config) (colors [3]color.Color) {
+	for i, confColor := range conf.Colors {
+		switch len(confColor) {
+		case 6, 7:
+			colors[i] = color.HEX(confColor)
+		case 1,2,3:
+			colors[i] = color.S256(confColor)
+		}
+	}
 }

@@ -8,14 +8,17 @@ import (
 	"runefetch/config"
 	"runefetch/hiscores"
 	"strings"
+
+	"github.com/gookit/color"
 )
 
 func main() {
-	configPath, err := config.ValidateConfig()
+	configPath, err := config.ValidateConfigDir()
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
 	playerData := config.GetConfig(configPath)
+	playerColors := config.GetColors(playerData)
 
 	var playerHiscores string
 	if playerData != nil {
