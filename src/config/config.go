@@ -5,17 +5,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gookit/color"
 )
 
-const (
-	// These match the colors set in your terminal with your color scheme.
-	DefaultAccentColor    = color.Magenta
-	DefaultSecondaryColor = color.Green
-	DefaultNumbersColor   = color.Blue
-	ResetColor            = color.White
-)
+var defaultColors = [3]color.Basic{color.Magenta, color.Green, color.Blue}
 
 type Config struct {
 	Name    string   `json:"name"`
@@ -56,13 +51,24 @@ func GetConfig(confPath string) *Config {
 }
 
 // Verifies config colors, returning default values if invalid
-func GetColors(conf Config) (colors [3]color.Color) {
+func GetColors(conf Config) (colors [3]color.RGBColor) {
 	for i, confColor := range conf.Colors {
 		switch len(confColor) {
 		case 6, 7:
 			colors[i] = color.HEX(confColor)
-		case 1,2,3:
-			colors[i] = color.S256(confColor)
+		case 1, 2, 3:
+			s, err := strconv.Atoi(confColor)
+			// confColor contains letters, fallback to HEX
+			if err != nil {
+				fmt.Printf("Error parsing color: %v\n", err)
+				colors[i] = color.HEX(confColor)
+			}
+			colors[i] = color.RGBColor(color.C256ToRgb(uint8(s)))
+		default:
+			colors[i] = defaultColors[i].RGB()
 		}
 	}
+
+	fmt.Printf("Colors: %v\n", colors)
+	return colors
 }

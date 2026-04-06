@@ -18,7 +18,7 @@ func main() {
 		fmt.Printf("%v", err)
 	}
 	playerData := config.GetConfig(configPath)
-	playerColors := config.GetColors(playerData)
+	var playerColors [3]color.RGBColor = config.GetColors(*playerData)
 
 	var playerHiscores string
 	if playerData != nil {
@@ -64,17 +64,17 @@ func main() {
 	for i := 0; logoScanner.Scan(); i++ {
 		switch i {
 		case 0:
-			fmt.Printf("%s\t%s%s%s\n", logoScanner.Text(), config.DefaultAccentColor, playerData.Name, config.ResetColor)
+			color.Printf("%s\t%s%s\n", logoScanner.Text(), playerColors[0], playerData.Name)
 			continue
 		case 1:
-			fmt.Printf("%s\t%s%s%s\n", logoScanner.Text(), config.DefaultAccentColor, playerData.Mode, config.ResetColor)
+			color.Printf("%s\t%s%s\n", logoScanner.Text(), playerColors[0], playerData.Mode)
 			continue
 		}
 		if skillsCount < len(displaySkills) {
-			fmt.Printf("%s\t%s\n", logoScanner.Text(), displaySkills[skillsCount].PrintEntry(true))
+			fmt.Printf("%s\t%s\n", logoScanner.Text(), displaySkills[skillsCount].PrintEntry(true, playerColors))
 			skillsCount++
 		} else if activitiesCount < len(displayActivities) {
-			fmt.Printf("%s\t%s\n", logoScanner.Text(), displayActivities[activitiesCount].PrintEntry(false))
+			fmt.Printf("%s\t%s\n", logoScanner.Text(), displayActivities[activitiesCount].PrintEntry(false, playerColors))
 			activitiesCount++
 		} else {
 			fmt.Printf("%s\n", logoScanner.Text())

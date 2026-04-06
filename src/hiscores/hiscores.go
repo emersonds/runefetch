@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"runefetch/config"
 	"strings"
+
+	"github.com/gookit/color"
 )
 
 type HiscoreEntry struct {
@@ -22,17 +23,17 @@ type HiscoreResponse struct {
 	Activities []HiscoreEntry `json:"activities"`
 }
 
-func (hEntry *HiscoreEntry) PrintEntry(isSkill bool) string {
+func (hEntry *HiscoreEntry) PrintEntry(isSkill bool, colors [3]color.RGBColor) string {
 	// TODO: Switch statement isSkill
 	// if skill print XP. if activity print score.
 	// copy print from output, add color, and replace in output loop
 	switch isSkill {
 	case true:
-		return fmt.Sprintf("%s%s %sLevel %d, %d XP, Rank %d",
-			config.DefaultAccentColor, hEntry.Name, config.ResetColor, hEntry.Level, hEntry.XP, hEntry.Rank)
+		return color.Sprintf("<fg=colors[0]%s</> <fg=colors[1]Level</> <fg=colors[2]%d</>, <fg=colors[2]%d</> <fg=colors[1]>XP</>, <fg=colors[1]>Rank</> <fg=colors[2]>%d</>",
+			hEntry.Name, hEntry.Level, hEntry.XP, hEntry.Rank)
 	case false:
-		return fmt.Sprintf("%s%s %sScore %d, Rank %d",
-			config.DefaultAccentColor, hEntry.Name, config.ResetColor, hEntry.Score, hEntry.Rank)
+		return fmt.Sprintf("%s%s %sScore %s%d, %sRank %s%d",
+			colors[0], hEntry.Name, colors[1], colors[2], hEntry.Score, colors[1], colors[2], hEntry.Rank)
 	}
 	return ""
 }
