@@ -25,19 +25,27 @@ type HiscoreResponse struct {
 
 func (hEntry *HiscoreEntry) PrintEntry(isSkill bool, colors [3]color.RGBColor) string {
 	cEntry := colors[0].Sprint(hEntry.Name)
-	//cNumType := colors[1].Sprintf(" Level " + strconv.Itoa(hEntry.Level))
-	//cNum := colors[2].Sprint(" " + hEntry.XP + " XP")
+	cRank := colors[1].Sprint("Rank ")
+	cRankNum := colors[2].Sprint(hEntry.Rank)
+
+	var output string
 
 	switch isSkill {
 	case true:
-		return fmt.Sprintf(cEntry + " test")
-		//return color.Sprintf("<fg=colors[0]%s</> <fg=colors[1]Level</> <fg=colors[2]%d</>, <fg=colors[2]%d</> <fg=colors[1]>XP</>, <fg=colors[1]>Rank</> <fg=colors[2]>%d</>",
-		//	hEntry.Name, hEntry.Level, hEntry.XP, hEntry.Rank)
+		cLevel := colors[1].Sprint(" Level ")
+		cLevelNum := colors[2].Sprint(hEntry.Level)
+		cXP := colors[1].Sprint(" XP")
+		cXPNum := colors[2].Sprint(hEntry.XP)
+
+		output = color.Sprint(cEntry + cLevel + cLevelNum + ", " + cXPNum + cXP + ", " + cRank + cRankNum)
 	case false:
-		return fmt.Sprintf("%s%s %sScore %s%d, %sRank %s%d",
-			colors[0], hEntry.Name, colors[1], colors[2], hEntry.Score, colors[1], colors[2], hEntry.Rank)
+		cScore := colors[1].Sprint(" Score ")
+		cScoreNum := colors[2].Sprint(hEntry.Score)
+
+		output = color.Sprint(cEntry + cScore + cScoreNum + ", " + cRank + cRankNum)
 	}
-	return ""
+
+	return output
 }
 
 // Builds the full http URL for Old School Hiscores API

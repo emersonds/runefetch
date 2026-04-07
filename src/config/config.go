@@ -69,6 +69,6 @@ func GetColors(conf Config) (colors [3]color.RGBColor) {
 		}
 	}
 
-	fmt.Printf("Colors: %v\n", colors)
+	//fmt.Printf("Colors: %v\n", colors)
 	return colors
 }

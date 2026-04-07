@@ -62,22 +62,26 @@ func main() {
 	skillsCount := 0
 	activitiesCount := 0
 	for i := 0; logoScanner.Scan(); i++ {
+		fmt.Printf("%s\t", logoScanner.Text())
 		switch i {
 		case 0:
-			color.Printf("%s\t%s%s\n", logoScanner.Text(), playerColors[0], playerData.Name)
+			c := playerColors[0].Sprint(playerData.Name)
+			color.Print(c + "\n")
 			continue
 		case 1:
-			color.Printf("%s\t%s%s\n", logoScanner.Text(), playerColors[0], playerData.Mode)
+			c := playerColors[0].Sprint(playerData.Mode)
+			color.Print(c + "\n")
 			continue
 		}
 		if skillsCount < len(displaySkills) {
-			fmt.Printf("%s\t%s\n", logoScanner.Text(), displaySkills[skillsCount].PrintEntry(true, playerColors))
+			fmt.Printf("%s\n", displaySkills[skillsCount].PrintEntry(true, playerColors))
 			skillsCount++
 		} else if activitiesCount < len(displayActivities) {
-			fmt.Printf("%s\t%s\n", logoScanner.Text(), displayActivities[activitiesCount].PrintEntry(false, playerColors))
+			fmt.Printf("%s\n", displayActivities[activitiesCount].PrintEntry(false, playerColors))
 			activitiesCount++
 		} else {
-			fmt.Printf("%s\n", logoScanner.Text())
+			// Needed so each line of logo goes on a new line when no other text is printed
+			fmt.Print("\n")
 		}
 	}
 }
