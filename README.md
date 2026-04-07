@@ -23,8 +23,7 @@ Runefetch supports all activities and skills in Old-School Runescape. Simply add
 
 ### To-Do
 - [ ] Set up commands with [Cobra](https://github.com/spf13/cobra).
-- [ ] Cache HTTP Request for performance.
-- [ ] Add colors and other customization options.
+- [x] Add colors and other customization options.
 - [ ] Create more preset configs.
 - [ ] Add smaller logo sizes.
 - [ ] Test functionality on MacOS and Windows.
