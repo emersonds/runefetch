@@ -2,6 +2,11 @@
   "name": "X",
   "mode": "normal",
   "logo": "fishing",
+  "colors": [
+    "#00FA9A",
+    "#3CB371",
+    "#2E8B57"
+  ],
   "modules": [
     "overall",
     "cooking",

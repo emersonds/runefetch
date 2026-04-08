@@ -3,9 +3,9 @@
   "mode": "normal",
   "logo": "slayer",
   "colors": [
-    "1",
-    "2",
-    "3"
+    "#FF0000",
+    "#F08080",
+    "#CD5C5C"
   ],
   "modules": [
     "overall",
