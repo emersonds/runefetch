@@ -1,0 +1,37 @@
+{
+  "name": "X",
+  "mode": "normal",
+  "logo": "stats",
+  "colors": [
+    "#FF0000",
+    "#F08080",
+    "#CD5C50"
+  ],
+  "modules": [
+    "Overall",
+    "Attack",
+    "Defence",
+    "Strength",
+    "Hitpoints",
+    "Ranged",
+    "Prayer",
+    "Magic",
+    "Cooking",
+    "Woodcutting",
+    "Fletching",
+    "Fishing",
+    "Firemaking",
+    "Crafting",
+    "Smithing",
+    "Mining",
+    "Herblore",
+    "Agility",
+    "Thieving",
+    "Slayer",
+    "Farming",
+    "Runecrafting",
+    "Hunter",
+    "Construction",
+    "Sailing"
+  ]
+}
