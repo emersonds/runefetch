@@ -10,6 +10,8 @@ Fetch your Old-School Runescape hiscores and display them with Runefetch! Inspir
 > [!NOTE]
 > Runefetch has only been tested on different flavors of Arch Linux. However, it should be compatible with most Linux distributions following the XDG Base Directory Specification. Runefetch has not been tested on MacOS or Windows.
 
+<img src="assets/combat.png" />
+<img src="assets/noncombat.png" />
 <img src="assets/example1.png" />
 
 ### Installation and Usage
